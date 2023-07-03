@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Microsoft.Win32;
 using Persistence.Context;
+using WebAPI.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,9 +49,10 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddCors(o => o.AddPolicy("CorsPolicy", b =>
 {
-    b.AllowAnyMethod()
+    b.WithOrigins("https://localhost:44410")
+    .AllowAnyMethod()
     .AllowAnyHeader()
-    .AllowAnyOrigin();
+    .AllowCredentials();
 }));
 
 // Register the Swagger generator, defining 1 or more Swagger documents
@@ -59,6 +61,8 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "JALSA API", Version = "v1" });
 
 });
+
+builder.Services.AddSignalR();
 
 // Auto Mapper Configurations
 var mapperConfig = new MapperConfiguration(mc =>
@@ -91,6 +95,8 @@ app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Jalsa");
 });
+
+app.MapHub<GameHub>("/gamehub");
 
 app.UseAuthentication();
 app.UseAuthorization();

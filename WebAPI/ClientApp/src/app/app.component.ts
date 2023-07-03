@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '@services';
+import { AuthenticationService, GamehubService } from '@services';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +9,8 @@ import { AuthenticationService } from '@services';
 })
 export class AppComponent implements OnInit {
   constructor(
-    public authService: AuthenticationService
+    public authService: AuthenticationService,
+    private gameHubService: GamehubService
   ) { }
   title = 'app';
 
@@ -17,6 +18,7 @@ export class AppComponent implements OnInit {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
     this.authService.checkUserAuthentificatedStatus();
+    this.gameHubService.connect();
   }
 }
 
