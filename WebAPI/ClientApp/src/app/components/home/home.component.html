@@ -1,0 +1,44 @@
+<div class="home-container" fxLayout="column">
+    <div class="content-container" fxLayout="row">
+        <div fxFlex="50%" class="content-lhs" fxLayoutAlign="center center">
+            <div fxLayout="column" fxLayoutGap="64px">
+                <span class="hero-heading">Make your team's estimations</span>
+                <div fxLayoutGap="16px" fxLayout="column">
+                    <span class="mat-display-2">accurate</span>
+                    <span class="mat-display-2">engaging</span>
+                    <span class="mat-display-2">agile</span>
+                </div>
+            </div>
+        </div>
+        <div fxFlex class="content-rhs" fxLayoutAlign="center center">
+            <mat-card class="mat-elevation-z10 action-card" fxLayoutGap="32px" fxLayout="column">
+                <div fxLayout="column" fxLayoutGap="16px">
+                    <div class="action-line-item" fxLayoutAlign="start center">
+                        <mat-icon class="line-item-icon">manage_accounts</mat-icon>
+                        <span class="line-item-content">Sign Up</span>
+                    </div>
+                    <div class="action-line-item" fxLayoutAlign="start center">
+                        <mat-icon class="line-item-icon">meeting_room</mat-icon>
+                        <span class="line-item-content">Create an instant room</span>
+                    </div>
+                    <div class="action-line-item" fxLayoutAlign="start center">
+                        <mat-icon class="line-item-icon">open_with</mat-icon>
+                        <span class="line-item-content">Invite others</span>
+                    </div>
+                    <div class="action-line-item" fxLayoutAlign="start center">
+                        <mat-icon class="line-item-icon">sports_esports</mat-icon>
+                        <span class="line-item-content">Start estimating stories</span>
+                    </div>
+                    <div class="action-line-item" fxLayoutAlign="start center">
+                        <mat-icon class="line-item-icon">token</mat-icon>
+                        <span class="line-item-content">Play Poker</span>
+                    </div>
+                </div>
+                <div class="action-button-section" fxLayoutAlign="center center" fxLayout="row" fxLayoutGap="8px">
+                    <button mat-flat-button color="primary" (click)="createNewRoom()">Start new Game</button>
+                    <button mat-flat-button color="accent">Join session</button>
+                </div>
+            </mat-card>
+        </div>
+    </div>
+</div>

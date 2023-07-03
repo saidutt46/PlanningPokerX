@@ -1,0 +1,8 @@
+<mat-toolbar color="primary" class="classic-toolbar" fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+    <div>Scrum Poker</div>
+    <div fxLayout="row">
+        <button *ngIf="!isUserAuthenticated()" mat-button (click)="userRegister()">Register</button>
+        <button *ngIf="!isUserAuthenticated()" mat-button (click)="userLogin()">Login</button>
+        <button *ngIf="isUserAuthenticated()" mat-button (click)="userLogout()">Logout</button>
+    </div>
+</mat-toolbar>

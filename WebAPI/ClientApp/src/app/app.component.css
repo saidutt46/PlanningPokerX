@@ -1,0 +1,9 @@
+.body-container {
+    width: 100% !important;
+    height: 100vh !important;
+    overflow: hidden;
+}
+
+.router-container {
+    overflow: hidden;
+}

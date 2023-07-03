@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>LOGIN</h2>
+
+<mat-dialog-content>
+
+  <form fxFlex fxLayoutGap="16px" fxLayout="column" [formGroup]="loginForm">
+    <mat-form-field>
+      <input required id="userName" matInput formControlName="userName" placeholder="username">
+    </mat-form-field>
+    <mat-form-field>
+      <input required id="password" matInput formControlName="password" [type]="hide ? 'text' : 'password' "
+        placeholder="password">
+      <mat-icon matSuffix (click)="hide = !hide">
+        {{hide ? 'visibility' : 'visibility_off'}}
+      </mat-icon>
+    </mat-form-field>
+  </form>
+
+</mat-dialog-content>
+
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="16px">
+  <button class="mat-raised-button" (click)="close()">CLOSE</button>
+  <button class="mat-raised-button mat-primary" (click)="save()">SAVE</button>
+</mat-dialog-actions>
