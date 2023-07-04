@@ -12,6 +12,8 @@
     <None Remove="ViewModels\" />
     <None Remove="ViewResponses\" />
     <None Remove="Helpers\" />
+    <None Remove="ServiceInterfaces\" />
+    <None Remove="Services\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -19,9 +21,13 @@
     <Folder Include="ViewModels\" />
     <Folder Include="ViewResponses\" />
     <Folder Include="Helpers\" />
+    <Folder Include="ServiceInterfaces\" />
+    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="Autofac" Version="7.0.1" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />

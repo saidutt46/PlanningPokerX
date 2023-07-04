@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { CreateGameComponent } from '../create-game/create-game.component';
 
 @Component({
   selector: 'app-home',
@@ -16,13 +18,18 @@ export class HomeComponent {
   ];
 
   constructor(
-    private router: Router
+    private router: Router,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
   }
 
   createNewRoom() {
-    this.router.navigateByUrl('create-room');
+    this.dialog.open(CreateGameComponent, {
+      width: '30%',
+      height: 'auto',
+      panelClass: 'custom-dialog'
+    });
   }
 }

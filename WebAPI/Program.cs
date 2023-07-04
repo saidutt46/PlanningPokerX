@@ -1,5 +1,11 @@
 ﻿using System.Text;
+using Application;
 using Application.Helpers;
+using Application.ServiceInterfaces;
+using Application.Services;
+using Autofac;
+using Autofac.Core;
+using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
 using Domain.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -8,10 +14,22 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Microsoft.Win32;
+using Persistence;
 using Persistence.Context;
 using WebAPI.SignalR;
 
+
 var builder = WebApplication.CreateBuilder(args);
+
+// Register the Autofac module
+builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
+// Register services directly with Autofac here. Don't
+// call builder.Populate(), that happens in AutofacServiceProviderFactory.
+builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new ApplicationAutofacModule()));
+builder.Host.ConfigureContainer<ContainerBuilder>(builder => builder.RegisterModule(new PersistenceAutofacModule()));
+
+
+
 
 // Add services to the container.
 
@@ -63,6 +81,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddSignalR();
+builder.Services.AddSingleton<IGameSessionService, GameSessionService>();
 
 // Auto Mapper Configurations
 var mapperConfig = new MapperConfiguration(mc =>
@@ -75,8 +94,6 @@ builder.Services.AddSingleton(mapper);
 
 
 builder.Services.AddOptions();
-
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

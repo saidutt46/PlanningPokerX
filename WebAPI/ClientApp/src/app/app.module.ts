@@ -7,7 +7,8 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule, UiUxModule } from '@modules';
-import { HomeComponent, LoginComponent, NavigationComponent, RegistrationComponent } from '@components';
+import { CreateGameComponent, GameHomeComponent, HomeComponent, LoginComponent,
+  NavigationComponent, RegistrationComponent } from '@components';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NOTIFICATION_SERV_TOKEN, NotificationService } from '@services';
 
@@ -17,7 +18,9 @@ import { NOTIFICATION_SERV_TOKEN, NotificationService } from '@services';
     HomeComponent,
     LoginComponent,
     RegistrationComponent,
-    NavigationComponent
+    NavigationComponent,
+    CreateGameComponent,
+    GameHomeComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

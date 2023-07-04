@@ -11,15 +11,16 @@ namespace Persistence.Context
     {
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
+
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.Entity<GameSession>().HasMany(p => p.Participants);
             builder.Entity<GameSession>().HasKey(s => s.Id);
-            builder.Entity<Participant>().HasKey(s => s.Id);
         }
+
+        public DbSet<GameSession> GameSession { get; set; }
 
         public override int SaveChanges()
         {

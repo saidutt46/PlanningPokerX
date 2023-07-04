@@ -1,0 +1,14 @@
+<div fxFlex fxLayout="column">
+    <mat-toolbar class="accent">CREATE ROOM</mat-toolbar>
+    <mat-dialog-content *ngIf="createGameForm">
+        <form fxFlex fxLayoutGap="16px" fxLayout="column" [formGroup]="createGameForm">
+            <mat-form-field>
+                <input required id="gameName" matInput formControlName="gameName" placeholder="session name">
+            </mat-form-field>
+        </form>
+    </mat-dialog-content>
+    <mat-dialog-actions fxLayoutAlign="end center">
+        <button mat-button (click)="close()">CLOSE</button>
+        <button color="primary" mat-raised-button (click)="saveGame()">CREATE</button>
+    </mat-dialog-actions>
+</div>
