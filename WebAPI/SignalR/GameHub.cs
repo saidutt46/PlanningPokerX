@@ -1,76 +1,66 @@
 ﻿using System;
 using Domain.Entities;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.SignalR.Client;
 
 namespace WebAPI.SignalR
 {
 	public class GameHub : Hub
 	{
+        private readonly static ConnectionMapping<string> _connections =
+            new ConnectionMapping<string>();
+
         public override async Task OnConnectedAsync()
         {
-            // Send the connection ID and list of participants back to the client
-            await Clients.Caller.SendAsync("ConnectionIdReceived", Context.ConnectionId);
+            string userName = Context.User.Identity.Name;
+            string connectionId = Context.ConnectionId;
+            await Clients.Caller.SendAsync("ConnectionIdReceived", connectionId);
+
+            _connections.Add(userName, connectionId);
+
             await base.OnConnectedAsync();
         }
 
-        public override Task OnDisconnectedAsync(Exception? exception)
+        public override async Task OnDisconnectedAsync(Exception exception)
         {
-            // let users know player has disconnected
-            Clients.All.SendAsync("PlayerDisconnected", Context.ConnectionId);
-            return base.OnDisconnectedAsync(exception);
+            string userName = Context.User.Identity.Name;
+            string connectionId = Context.ConnectionId;
+
+            _connections.Remove(userName, connectionId);
+
+            await base.OnDisconnectedAsync(exception);
         }
 
         public async Task JoinGame(string gameId)
         {
-            await Groups.AddToGroupAsync(Context.ConnectionId, gameId);
-            await Clients.Group(gameId).SendAsync("PlayerJoined", Context.ConnectionId);
+            string userName = Context.User.Identity.Name;
+            string connectionId = Context.ConnectionId;
+
+            await Groups.AddToGroupAsync(connectionId, gameId);
+
+            // Notify all clients in the group that a player joined
+            await Clients.Group(gameId).SendAsync("PlayerJoined", userName);
         }
 
         public async Task LeaveGame(string gameId)
         {
-            await Groups.RemoveFromGroupAsync(Context.ConnectionId, gameId);
-            await Clients.Group(gameId).SendAsync("PlayerLeft", Context.ConnectionId);
+            string connectionId = Context.ConnectionId;
+
+            await Groups.RemoveFromGroupAsync(connectionId, gameId);
+
+            // Notify all clients in the group that a player left
+            await Clients.Group(gameId).SendAsync("PlayerLeft", Context.User.Identity.Name);
         }
 
-        public async Task CardPick(string gameId, string move)
+        public async Task PickCard(string gameId, string cardValue)
         {
-            await Clients.Group(gameId).SendAsync("MoveReceived", move);
+            string userName = Context.User.Identity.Name;
+
+            // Send the picked card value to all clients in the group
+            await Clients.Group(gameId).SendAsync("CardPicked", userName, cardValue);
         }
 
-        public async Task GameStart(string gameId)
-        {
-            await Clients.Group(gameId).SendAsync("GameStarted");
-        }
 
-        public async Task GameEnd(string gameId)
-        {
-            await Clients.Group(gameId).SendAsync("GameEnded");
-        }
-
-        public async Task GameReset(string gameId)
-        {
-            await Clients.Group(gameId).SendAsync("GameReset");
-        }
-
-        public async Task GamePause(string gameId)
-        {
-            await Clients.Group(gameId).SendAsync("GamePaused");
-        }
-
-        public async Task GameResume(string gameId)
-        {
-            await Clients.Group(gameId).SendAsync("GameResumed");
-        }
-
-        public async Task GameOver(string gameId)
-        {
-            await Clients.Group(gameId).SendAsync("GameOver");
-        }
-
-        public async Task GameDraw(string gameId)
-        {
-            await Clients.Group(gameId).SendAsync("GameDraw");
-        }
 
     }
 }

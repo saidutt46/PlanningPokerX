@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -10,7 +10,7 @@ import { AppRoutingModule, UiUxModule } from '@modules';
 import { CreateGameComponent, GameHomeComponent, HomeComponent, LoginComponent,
   NavigationComponent, RegistrationComponent } from '@components';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { NOTIFICATION_SERV_TOKEN, NotificationService } from '@services';
+import { GamehubService, NOTIFICATION_SERV_TOKEN, NotificationService } from '@services';
 
 @NgModule({
   declarations: [
@@ -34,6 +34,12 @@ import { NOTIFICATION_SERV_TOKEN, NotificationService } from '@services';
   ],
   providers: [
     { provide: NOTIFICATION_SERV_TOKEN, useClass: NotificationService },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (signalrService: GamehubService) => () => signalrService.initiateSignalR(),
+      deps: [GamehubService],
+      multi: true,
+    }
   ],
   bootstrap: [AppComponent]
 })

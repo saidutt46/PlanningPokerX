@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CreateGameComponent } from '../create-game/create-game.component';
+import { GamehubService } from '@services';
 
 @Component({
   selector: 'app-home',
@@ -19,7 +20,8 @@ export class HomeComponent {
 
   constructor(
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private gameHubService: GamehubService
   ) { }
 
   ngOnInit(): void {
@@ -31,5 +33,9 @@ export class HomeComponent {
       height: 'auto',
       panelClass: 'custom-dialog'
     });
+  }
+
+  joinSession() {
+    this.gameHubService.addParticipant('45002fd0-f8dc-43f8-03f4-08db7dc6f3cf');
   }
 }

@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { LoginResponseModel, UserLoginModel } from '@models';
-import { AuthenticationService, NOTIFICATION_SERV_TOKEN, NotificationService } from '@services';
+import { AuthenticationService, GamehubService, NOTIFICATION_SERV_TOKEN, NotificationService } from '@services';
 import { catchError, throwError } from 'rxjs';
 
 @Component({
@@ -22,7 +22,8 @@ export class LoginComponent {
     private fb: FormBuilder,
     @Inject(NOTIFICATION_SERV_TOKEN) private notifier: NotificationService,
     private dialogRef: MatDialogRef<LoginComponent>,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private gameHubService: GamehubService
   ) { }
 
   ngOnInit(): void {

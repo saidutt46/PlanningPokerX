@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { LoginComponent, RegistrationComponent } from '@components';
 import { AuthenticationService } from '@services';
 
@@ -11,7 +12,8 @@ import { AuthenticationService } from '@services';
 export class NavigationComponent {
   constructor(
     private dialog: MatDialog,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -40,5 +42,6 @@ export class NavigationComponent {
 
   userLogout() {  
     this.authService.logout();
+    this.router.navigateByUrl('/home');
   }
 }

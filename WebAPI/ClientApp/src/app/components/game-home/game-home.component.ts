@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { catchError, throwError } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 
 import { BaseDtoResponse, GameSession } from '@models';
-import { GameSessionService, NOTIFICATION_SERV_TOKEN, NotificationService } from '@services';
+import { GameSessionService, GamehubService, NOTIFICATION_SERV_TOKEN, NotificationService } from '@services';
 
 @Component({
   selector: 'app-game-home',
@@ -18,6 +18,7 @@ export class GameHomeComponent implements OnInit {
     private route: ActivatedRoute,
     private gameSessionService: GameSessionService,
     @Inject(NOTIFICATION_SERV_TOKEN) public notifier: NotificationService,
+    private gameHubService: GamehubService
   ) { }
 
   ngOnInit(): void {
@@ -33,7 +34,7 @@ export class GameHomeComponent implements OnInit {
         })).subscribe({
           next: (v: BaseDtoResponse<GameSession>) => this.postGameDetails(v),
           error: (e: BaseDtoResponse<GameSession>) => this.notifier.errorNotification(e.error),
-          complete: () => console.warn('Game creation completed')
+          complete: () => this.makeit()
         });
     }
   }
@@ -41,5 +42,14 @@ export class GameHomeComponent implements OnInit {
   postGameDetails(x: BaseDtoResponse<GameSession>) {
     console.warn(x);
     this.gameSession = x.payload;
+  }
+
+  postUserAdded(x: Observable<any>) {
+    console.warn('user joined the game');
+    console.warn(x);
+  }
+
+  makeit() {
+    this.gameHubService.addParticipant(this.gameId);
   }
 }
